@@ -15,7 +15,10 @@ import {
   ModalFooter,
   Input,
   FormGroup,
-  Label
+  Label,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
 } from "reactstrap";
 import Select from 'react-select';
 import { HashLoader , ScaleLoader } from 'react-spinners';
@@ -39,7 +42,9 @@ class order extends Component {
       tambahkodebarang:"",
       tambahnamabarang:"",
       tambahsatuanbarang:"",
-      tambahqtybarang:"",
+      tambahqtybarang:0,
+      tambahunitqtybarang:0,
+      tambahsatuanqtybarang:0,
       prmModaledit:false,
       prmBarang:"",
       masterBarangList:[],
@@ -178,7 +183,7 @@ class order extends Component {
     .then( result => {
       this.setState({
         ...this.state,
-        dataOrderD:result.data.result
+        dataOrderD:result.data.orderList
       });
     })
     .catch(error => {
@@ -204,13 +209,27 @@ class order extends Component {
     });
   }
   addData = async () => {
-    if(this.state.tambahkodebarang === "" || this.state.tambahqtybarang === ""){
-      alert("barang, qty dan harga barang tidak boleh kosong")
+    if(this.state.tambahkodebarang === ""){
+      alert("Item order tidak boleh kosong")
+    } else if(this.state.tambahqtybarang == 0){
+      alert("Qty order tidak boleh kosong")
     } else {
       let daftarBarang = this.state.listAddBarang
       let resultChecked = daftarBarang.find(o => o.kode_barang === `${this.state.tambahkodebarang}`);
       if(resultChecked===undefined){
-        let dataTopush = {kode_barang:`${this.state.tambahkodebarang}`,nama_barang:`${this.state.tambahnamabarang}`,qty:`${this.state.tambahqtybarang}`,satuan:`${this.state.tambahsatuanbarang}`}
+        let qtyOrder =parseInt(this.state.tambahqtybarang)
+        let convertionQtyOrder =parseInt(this.state.prmBarang.conversi)
+        let qtyOrderProcessA = Math.floor(qtyOrder/convertionQtyOrder)
+        let qtyOrderProcessB = qtyOrder%convertionQtyOrder
+        let qtyOrderToShow = qtyOrderProcessA+"."+qtyOrderProcessB
+        let dataTopush = {
+          kode_barang:`${this.state.tambahkodebarang}`,
+          nama_barang:`${this.state.tambahnamabarang}`,
+          qty:`${this.state.tambahqtybarang}`,
+          qtyToShow:`${qtyOrderToShow}`,
+          unit:`${this.state.prmBarang.unit}`,
+          satuan:`${this.state.prmBarang.satuan}`
+        }
         await daftarBarang.push(dataTopush)
         await this.setState({
           ...this.state,
@@ -218,21 +237,26 @@ class order extends Component {
           tambahkodebarang:"",
           tambahnamabarang:"",
           tambahsatuanbarang:"",
-          tambahqtybarang:"",
+          tambahqtybarang:0,
+          tambahunitqtybarang:0,
+          tambahsatuanqtybarang:0,
           prmBarang:""
         });
       } else {
-        let indexArray = daftarBarang.findIndex(x => x.kode_barang === `${this.state.tambahkodebarang}`);
-        let qtyAwal = daftarBarang[indexArray].qty
-        let qtyAkhir = parseInt(qtyAwal)+parseInt(this.state.tambahqtybarang)
-        daftarBarang[indexArray].qty=qtyAkhir
+        // let indexArray = daftarBarang.findIndex(x => x.kode_barang === `${this.state.tambahkodebarang}`);
+        // let qtyAwal = daftarBarang[indexArray].qty
+        // let qtyAkhir = parseInt(qtyAwal)+parseInt(this.state.tambahqtybarang)
+        // daftarBarang[indexArray].qty=qtyAkhir
+        alert("item sudah ada di daftar order")
         this.setState({
           ...this.state,
           listAddBarang: daftarBarang,
           tambahkodebarang:"",
           tambahnamabarang:"",
           tambahsatuanbarang:"",
-          tambahqtybarang:"",
+          tambahqtybarang:0,
+          tambahunitqtybarang:0,
+          tambahsatuanqtybarang:0,
           prmBarang:""
         });
       }
@@ -265,7 +289,10 @@ class order extends Component {
       prmBarang: value,
       tambahkodebarang:value.value,
       tambahnamabarang:value.label,
-      tambahsatuanbarang:value.satuan
+      tambahsatuanbarang:value.satuan,
+      tambahqtybarang:0,
+      tambahunitqtybarang:0,
+      tambahsatuanqtybarang:0
     });
   }
   submitData = () => {
@@ -306,6 +333,31 @@ class order extends Component {
       .catch(error => {
         console.log(error);
         console.log(this.props);
+      });
+    }
+  }
+  handleChangeUnitOrder = event =>  {
+    let unitOrder = event.target.value==""?0:parseInt(event.target.value)
+    let satuanOrder = this.state.tambahsatuanqtybarang==""?0:parseInt(this.state.tambahsatuanqtybarang)
+    let newTambahQty=parseInt(satuanOrder)+(parseInt(unitOrder)*parseInt(this.state.prmBarang.conversi))
+    this.setState({
+      ...this.state,
+      tambahqtybarang:newTambahQty,
+      tambahunitqtybarang:event.target.value
+    });
+  }
+  handleChangeSatuanOrder = event =>  {
+    let maxSatuan = parseInt(this.state.prmBarang.conversi)-1
+    if(event.target.value>maxSatuan){
+      alert("angka yang anda input melebihi batas satuan")
+    } else{
+      let unitOrder = this.state.tambahunitqtybarang==""?0:parseInt(this.state.tambahunitqtybarang)
+      let satuanOrder = event.target.value==""?0:parseInt(event.target.value)
+      let newTambahQty=parseInt(satuanOrder)+(parseInt(unitOrder)*parseInt(this.state.prmBarang.conversi))
+      this.setState({
+        ...this.state,
+        tambahqtybarang:newTambahQty,
+        tambahsatuanqtybarang:event.target.value
       });
     }
   }
@@ -405,7 +457,20 @@ class order extends Component {
                 </FormGroup>
               </Col>
             </Row>
-            <Row style={{backgroundColor:"#f7f7f7",paddingTop:10,paddingBottom:10}}>
+            <Row style={{backgroundColor:"#f7f7f7",paddingTop:10}}>
+              <Col xs="12" sm="12" md="6" style={{display:"flex",justifyContent:"flex-start",alignItems:"center"}}>
+                <span style={{fontWeight:"bold"}}>Item order</span>
+              </Col>
+              <Col xs="12" sm="12" md="2" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <span style={{fontWeight:"bold"}}>Unit order</span>
+              </Col>
+              <Col xs="12" sm="12" md="2" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <span style={{fontWeight:"bold"}}>Satuan order</span>
+              </Col>
+              <Col xs="12" sm="12" md="2" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+              </Col>
+            </Row>
+            <Row style={{backgroundColor:"#f7f7f7",paddingBottom:10}}>
               <Col xs="12" sm="12" md="6">
                 <Select
                   className="basic-single"
@@ -420,12 +485,24 @@ class order extends Component {
                 />
               </Col>
               <Col xs="12" sm="12" md="2">
-                <Input type="number" name="tambahqtybarang" id="tambahqtybarang" value={this.state.tambahqtybarang} onChange={this.handleChange} placeholder="Qty" min="0" />
+                {/* <Input type="number" name="tambahqtybarang" id="tambahqtybarang" value={this.state.tambahqtybarang} onChange={this.handleChange} placeholder="Qty" min="0" /> */}
+                <InputGroup>
+                  <Input disabled={this.state.prmBarang.satuan == undefined?true:false} type="number" name="tambahunitbarang" id="tambahunitbarang" value={this.state.tambahunitqtybarang} onChange={this.handleChangeUnitOrder} min="0" />
+                  <InputGroupAddon addonType="append">
+                    <InputGroupText><span style={{fontWeight:"bold"}}>{this.state.prmBarang.unit == undefined?"---":this.state.prmBarang.unit}</span></InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
               </Col>
               <Col xs="12" sm="12" md="2" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <span style={{fontWeight:"bold"}}>{this.state.prmBarang.satuan == undefined?"---":this.state.prmBarang.satuan}</span>
+                {/* <span style={{fontWeight:"bold"}}>{this.state.prmBarang.satuan == undefined?"---":this.state.prmBarang.satuan}</span> */}
+                <InputGroup>
+                  <Input disabled={this.state.prmBarang.satuan == undefined?true:false} type="number" name="tambahsatuanqtybarang" id="tambahsatuanqtybarang" value={this.state.tambahsatuanqtybarang} onChange={this.handleChangeSatuanOrder} min="0" />
+                  <InputGroupAddon addonType="append">
+                    <InputGroupText><span style={{fontWeight:"bold"}}>{this.state.prmBarang.satuan == undefined?"---":this.state.prmBarang.satuan}</span></InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
               </Col>
-              <Col xs="12" sm="12" md="1" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+              <Col xs="12" sm="12" md="2" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <Button block={true} color="success" onClick={() => this.addData()}>
                   Add
                 </Button>
@@ -448,8 +525,8 @@ class order extends Component {
                   <Row key={index}>
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{listAddBarang.kode_barang}</span></Col>
                     <Col xs="5"><span style={{fontWeight:"bold"}}>{listAddBarang.nama_barang}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{listAddBarang.qty}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{listAddBarang.satuan}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{listAddBarang.qtyToShow}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{`${listAddBarang.unit}.${listAddBarang.satuan}`}</span></Col>
                     <Col xs="1">
                       <button className="myBtn" onClick={() => this.eraseAddData(index)}><i className="fa fa-trash" aria-hidden="true"></i></button>
                     </Col>
@@ -504,19 +581,21 @@ class order extends Component {
             </Row>
             <Row style={{borderBottom:"1px solid #000000"}}>
               <Col xs="2"><span style={{fontWeight:"bold"}}>KODE BARANG</span></Col>
-              <Col xs="4"><span style={{fontWeight:"bold"}}>NAMA BARANG</span></Col>
+              <Col xs="2"><span style={{fontWeight:"bold"}}>NAMA BARANG</span></Col>
               <Col xs="2"><span style={{fontWeight:"bold"}}>REQUEST QTY</span></Col>
               <Col xs="2"><span style={{fontWeight:"bold"}}>SEND QTY</span></Col>
-              <Col xs="2"><span style={{fontWeight:"bold"}}>SATUAN</span></Col>
+              <Col xs="2"><span style={{fontWeight:"bold"}}>UNIT RECEIVE</span></Col>
+              <Col xs="2"><span style={{fontWeight:"bold"}}>SATUAN RECEIVE</span></Col>
             </Row>
-            <Row style={{height:"30vh",overflowX:"hidden",overflowY:"scroll"}}>
+            <Row className="bodyData">
               <Col>
                 {this.state.dataOrderD.length > 0 && this.state.dataOrderD.map((dataOrderD,index) =>
                   <Row key={index}>
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.kode_barang}</span></Col>
-                    <Col xs="4"><span style={{fontWeight:"bold"}}>{dataOrderD.nama_barang}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.qty_req}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.qty_send}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.nama_barang}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{`${dataOrderD.qty_req_ToShow}/${dataOrderD.unit_barang}.${dataOrderD.satuan_barang}`}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{`${dataOrderD.qty_send_ToShow}/${dataOrderD.unit_barang}.${dataOrderD.satuan_barang}`}</span></Col>
+                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.satuan_barang}</span></Col>
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.satuan_barang}</span></Col>
                   </Row>
                 )}
