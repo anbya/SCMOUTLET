@@ -277,7 +277,7 @@ class planProduksi extends Component {
         });
         alert("data berhasil Ditambahkan")
         await this.modalAddClose()
-        window.open(`http://localhost:3339/productionPlanPrint?ID=${result.data.kodeProduksiH}`, "_blank")
+        window.open(`https://scmoutlet.jaygeegroupapp.com/productionPlanPrint?ID=${result.data.kodeProduksiH}`, "_blank")
         this.refreshPageData()
       })
       .catch(error => {

@@ -313,7 +313,7 @@ class rawProsessing extends Component {
         });
         alert("data berhasil Ditambahkan")
         await this.modalAddClose()
-        window.open(`http://localhost:3339/rawProsessingPlanPrint?ID=${result.data.kodeRawProcessingH}`, "_blank")
+        window.open(`https://scmoutlet.jaygeegroupapp.com/rawProsessingPlanPrint?ID=${result.data.kodeRawProcessingH}`, "_blank")
         this.refreshPageData()
       })
       .catch(error => {
