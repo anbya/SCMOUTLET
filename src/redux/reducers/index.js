@@ -8,11 +8,17 @@ const initialState = {
   testredux:"Hello From Redux",
   aksespage:"",
   userinfo:"",
+  navState:"",
+  OutletName:""
 };
 
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case "SETOUTLETNAME":
+      return { ...state, OutletName: action.payload };
+    case "SETNAVSTATE":
+      return { ...state, navState: action.payload };
     case "SETAKSES":
       return { ...state, aksespage: action.payload };
     case "SETUSERINFO":
