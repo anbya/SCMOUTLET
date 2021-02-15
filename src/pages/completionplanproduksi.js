@@ -202,7 +202,7 @@ class completionPlanProduksi extends Component {
       PRMTURUNANPRODUKSI: data.kode_master_produksi_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getCompletionProductionPageD`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getCompletionProductionPageD`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -258,7 +258,7 @@ class completionPlanProduksi extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormProductionPlan`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormProductionPlan`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -425,7 +425,7 @@ class completionPlanProduksi extends Component {
             MULTIPLEBY:this.state.tambahqtybaranghasil
         };
         axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/addItemProductionPlan`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addItemProductionPlan`, dataToSend, {
             headers: {
             "Access-Control-Allow-Origin": "*"
             }

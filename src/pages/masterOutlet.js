@@ -147,7 +147,7 @@ class masterOutlet extends Component {
       EMAIL: this.state.editEmailoutlet
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/editdataOutlet`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/editdataOutlet`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -184,7 +184,7 @@ class masterOutlet extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/adddataOutlet`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/adddataOutlet`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

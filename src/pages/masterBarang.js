@@ -206,7 +206,7 @@ class masterBarang extends Component {
         buttonEditText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/editMasterBarangData`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/editMasterBarangData`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -255,7 +255,7 @@ class masterBarang extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addMasterBarangData`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addMasterBarangData`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

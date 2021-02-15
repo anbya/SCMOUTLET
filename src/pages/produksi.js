@@ -201,7 +201,7 @@ class produksi extends Component {
       KODEPRODUKSIH: data.kode_produksi_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getProduksiPageD`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getProduksiPageD`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -261,7 +261,7 @@ class produksi extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addProduksi`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addProduksi`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -316,7 +316,7 @@ class produksi extends Component {
           tambahqtybaranghasil:"",
         });
         await axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailBarangProduksi`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailBarangProduksi`, dataToSend, {
           headers: {
             "Access-Control-Allow-Origin": "*"
           }
@@ -349,7 +349,7 @@ class produksi extends Component {
           tambahqtybaranghasil:"",
         });
         await axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailBarangProduksi`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailBarangProduksi`, dataToSend, {
           headers: {
             "Access-Control-Allow-Origin": "*"
           }

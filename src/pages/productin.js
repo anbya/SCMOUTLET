@@ -166,7 +166,7 @@ class productIn extends Component {
       kodePOH: data.kode_purchase_order_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailPOData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailPOData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -319,7 +319,7 @@ class productIn extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormPOData`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormPOData`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

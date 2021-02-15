@@ -29,13 +29,20 @@ class loginPage extends Component {
       buttonLoginText:"Login",
     };
   }
-  componentDidMount = () =>{
+  componentDidMount = async () =>{
+    let authToken = await localStorage.getItem("authToken")
+    authToken != null ? this.kembaliKeLogin() : this.ambilDataOutlet()
+  }
+  kembaliKeLogin = () =>{
+    this.props.history.push({ pathname: "/home" })
+  }
+  ambilDataOutlet = () =>{
     this.setState({
       ...this.state,
       loading:true,
     });
     axios
-    .get(`https://api.jaygeegroupapp.com/centralkitchen/dataOutlet`)
+    .get(`${localStorage.getItem("APIROUTE")}/centralkitchen/dataOutlet`)
     .then(result => {
       this.setState({
         ...this.state,
@@ -65,7 +72,7 @@ class loginPage extends Component {
         buttonLoginText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/login`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/login`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -81,27 +88,13 @@ class loginPage extends Component {
           await localStorage.setItem("authToken",prmNIK)
           await localStorage.setItem("outletID",this.state.loginPRM)
           this.props.history.push({ pathname: "/home" })
-        } else if(result.data.status === "01") {
+        } else {
           this.setState({
             ...this.state,
             buttonLoginPrm:false,
             buttonLoginText:"Login"
           });
-          alert("Password salah")
-        } else if(result.data.status === "02") {
-          this.setState({
-            ...this.state,
-            buttonLoginPrm:false,
-            buttonLoginText:"Login"
-          });
-          alert("User tidak ditemukan")
-        } else if(result.data.status === "03") {
-          this.setState({
-            ...this.state,
-            buttonLoginPrm:false,
-            buttonLoginText:"Login"
-          });
-          alert("Anda tidak mempunyai hak akses untuk melakukan login")
+          alert(result.data.message)
         }
       })
       .catch(error => {

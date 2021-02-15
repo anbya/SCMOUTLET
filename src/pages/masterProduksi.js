@@ -220,7 +220,7 @@ class masterProduksi extends Component {
       KODEMASTERPRODUKSIH: data.kode_master_produksi_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getMasterProduksi`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getMasterProduksi`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -294,7 +294,7 @@ class masterProduksi extends Component {
             buttonAddText:""
         });
         axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/addMasterProduksi`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addMasterProduksi`, dataToSend, {
             headers: {
             "Access-Control-Allow-Origin": "*"
             }
@@ -651,7 +651,7 @@ class masterProduksi extends Component {
       IDPLANPRODUCTION:this.state.detailDataProduksi.kode_master_produksi_h
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/updateMasterProduksi`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/updateMasterProduksi`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -677,7 +677,7 @@ class masterProduksi extends Component {
       ID: data.kode_master_produksi_h,
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/deleteMasterProduksi`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/deleteMasterProduksi`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

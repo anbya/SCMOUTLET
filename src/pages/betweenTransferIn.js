@@ -68,7 +68,7 @@ class transferIn extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getTransferinData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getTransferinData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -94,7 +94,7 @@ class transferIn extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getTransferinData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getTransferinData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -114,8 +114,8 @@ class transferIn extends Component {
     const dataToSend = {
       kodeTO: data.kode_between_transfer
     };
-    await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailTransferoutData`, dataToSend, {
+    axios
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailTransferoutData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -123,16 +123,13 @@ class transferIn extends Component {
     .then( result => {
       this.setState({
         ...this.state,
-        dataTOD:result.data.result
+        dataTOD:result.data.result,
+        prmModaledit: true,
+        detailDataTO:data
       });
     })
     .catch(error => {
       console.log(error);
-    });
-    this.setState({
-      ...this.state,
-      prmModaledit: true,
-      detailDataTO:data
     });
   }
   modalEditClose = () =>  {
@@ -195,7 +192,7 @@ class transferIn extends Component {
     };
     console.log(dataToSend);
     axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/receivePO`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/receivePO`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -223,7 +220,7 @@ class transferIn extends Component {
       buttonEditText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/receiveTransferOut`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/receiveTransferOut`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from "axios";
 import './App.css';
 import "./assets/font-awesome/css/font-awesome.min.css";
 import 'react-data-table-component-extensions/dist/index.css';
@@ -36,27 +37,39 @@ import RawProsessingPlanPrint from "./pages/rawProsessingPlanPrint";
 import TransferOutPrint from "./pages/transferOutPrint";
 
 
-function App() {
-  return (
-    <div>
-    <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Loginpage />
-          </Route>
-          <PrivateRoute component={Mainpage} path="/home" exact />
-          <PrivateRoute component={orderPage} path="/order" exact />
-          <PrivateRoute component={pembelianPage} path="/pembelian" exact />
-          <PrivateRoute component={SalesPage} path="/sales" exact />
-          <PrivateRoute component={TransferInPage} path="/transferin" exact />
-          <PrivateRoute component={TransferOutPage} path="/transferout" exact />
-          <PrivateRoute component={TransferOutPrint} path="/transferOutPrint" exact />
-        </Switch>
-      </Router>
-    </Provider>
-    </div>
-  );
+class App extends Component {
+    componentDidMount = () =>  {
+        axios
+        .get(`${process.env.REACT_APP_LINK}`)
+        .then(async result => {
+            await localStorage.setItem("APIROUTE",result.data.APIROUTE)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    render() {
+        return (
+            <div>
+            <Provider store={store}>
+              <Router>
+                <Switch>
+                  <Route exact path="/">
+                    <Loginpage />
+                  </Route>
+                  <PrivateRoute component={Mainpage} path="/home" exact />
+                  <PrivateRoute component={orderPage} path="/order" exact />
+                  <PrivateRoute component={pembelianPage} path="/pembelian" exact />
+                  <PrivateRoute component={SalesPage} path="/sales" exact />
+                  <PrivateRoute component={TransferInPage} path="/transferin" exact />
+                  <PrivateRoute component={TransferOutPage} path="/transferout" exact />
+                  <PrivateRoute component={TransferOutPrint} path="/transferOutPrint" exact />
+                </Switch>
+              </Router>
+            </Provider>
+            </div>
+        );
+    }
 }
 
 export default App;

@@ -204,7 +204,7 @@ class planProduksi extends Component {
       IDPRODUKSIH: data.kode_produksi_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getProductionPlanPageD`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getProductionPlanPageD`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -264,7 +264,7 @@ class planProduksi extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormProductionPlan`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormProductionPlan`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -431,7 +431,7 @@ class planProduksi extends Component {
             MULTIPLEBY:this.state.tambahqtybaranghasil
         };
         axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/addItemProductionPlan`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addItemProductionPlan`, dataToSend, {
             headers: {
             "Access-Control-Allow-Origin": "*"
             }
@@ -522,7 +522,7 @@ class planProduksi extends Component {
       buttonEditText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/productionPlanCompletion`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/productionPlanCompletion`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

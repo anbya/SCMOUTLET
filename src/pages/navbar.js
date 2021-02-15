@@ -37,7 +37,7 @@ class navbar extends Component {
           OUTLET: prmOUTLET
         };
         axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/getAksesOutlet`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getAksesOutlet`, dataToSend, {
           headers: {
             "Access-Control-Allow-Origin": "*"
           }
@@ -66,10 +66,11 @@ class navbar extends Component {
       });
     }
     logout = async () =>{
-      await this.props.history.push({ pathname: "/"})
-      await this.props.dispatch({ type: "SETAKSES", payload: "" });
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("outletID");
+        await localStorage.removeItem("authToken");
+        await localStorage.removeItem("outletID");
+        await this.props.history.push({ pathname: "/"})
+        await this.props.dispatch({ type: "SETAKSES", payload: "" });
+        await this.props.dispatch({ type: "SETUSERINFO", payload: "" });
     }
     render() {
         return (

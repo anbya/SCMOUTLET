@@ -101,7 +101,7 @@ class user extends Component {
   // add data function
   modalAddOpen = async () =>  {
     await axios
-    .get(`https://api.jaygeegroupapp.com/hris`)
+    .get(`${localStorage.getItem("APIROUTE")}/hris`)
     .then(result => {
       this.setState({
         ...this.state,
@@ -151,7 +151,7 @@ class user extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addUser`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addUser`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -217,7 +217,7 @@ class user extends Component {
       PASS: this.state.editpassuser
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/editUser`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/editUser`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

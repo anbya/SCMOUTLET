@@ -147,7 +147,7 @@ class masterVendor extends Component {
       EMAIL: this.state.editEmailvendor
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/editdataVendor`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/editdataVendor`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -184,7 +184,7 @@ class masterVendor extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/adddataVendor`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/adddataVendor`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

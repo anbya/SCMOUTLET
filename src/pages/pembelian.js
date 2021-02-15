@@ -67,7 +67,7 @@ class pembelian extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getPembelianH`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getPembelianH`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -93,7 +93,7 @@ class pembelian extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getOrderData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getOrderData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -119,7 +119,7 @@ class pembelian extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getFormAddOrder`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getFormAddOrder`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -173,7 +173,7 @@ class pembelian extends Component {
       kodePembelianH: data.kode_pembelian_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailPembelian`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailPembelian`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -290,7 +290,7 @@ class pembelian extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addDataPembelian`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addDataPembelian`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -326,7 +326,7 @@ class pembelian extends Component {
       buttonEditText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/receiveOrder`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/receiveOrder`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

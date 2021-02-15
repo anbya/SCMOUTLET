@@ -99,7 +99,7 @@ class sales extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getSalesH`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getSalesH`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -125,7 +125,7 @@ class sales extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getSalesH`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getSalesH`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -151,7 +151,7 @@ class sales extends Component {
       OUTLET: prmOUTLET
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getSalesForm`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getSalesForm`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -244,7 +244,7 @@ class sales extends Component {
       IDSALES: data.id_sales_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getSalesD`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getSalesD`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -291,7 +291,7 @@ class sales extends Component {
       buttonEditText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/rawProcessCompletion`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/rawProcessCompletion`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -351,7 +351,7 @@ class sales extends Component {
       buttonAddText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/addSales`, data, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addSales`, data, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

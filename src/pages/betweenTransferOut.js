@@ -76,7 +76,7 @@ class transferOut extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getTransferoutData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getTransferoutData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -102,7 +102,7 @@ class transferOut extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getTransferoutData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getTransferoutData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -127,38 +127,35 @@ class transferOut extends Component {
       ...this.state,
       loadingParam:"block",
     });
-    await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getFormTO`, dataToSend, {
+    axios
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getFormTO`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
     })
     .then( result => {
+        const dateToForm = moment().format("YYYY-MM-DD HH:mm:ss")
       this.setState({
         ...this.state,
         prmOutletPengirim:result.data.nama_outlet,
         masterBarangList: result.data.dataMasterBarang,
-        masterOutletList: result.data.dataOutlet
+        masterOutletList: result.data.dataOutlet,
+        loadingParam:"none",
+        prmModaladd: true,
+        prmBarang:"",
+        tambahkodebarang:"",
+        tambahnamabarang:"",
+        tambahqtybarang:"",
+        tambahhargabarang:"",
+        addNote:"",
+        listAddBarang:[],
+        prmOutlet:"",
+        tambahkodeoutlet:"",
+        dateForm:dateToForm
       });
     })
     .catch(error => {
       console.log(error);
-    });
-    const dateToForm = moment().format("YYYY-MM-DD HH:mm:ss")
-    this.setState({
-      ...this.state,
-      loadingParam:"none",
-      prmModaladd: true,
-      prmBarang:"",
-      tambahkodebarang:"",
-      tambahnamabarang:"",
-      tambahqtybarang:"",
-      tambahhargabarang:"",
-      addNote:"",
-      listAddBarang:[],
-      prmOutlet:"",
-      tambahkodeoutlet:"",
-      dateForm:dateToForm
     });
   }
   modalAddClose = () =>  {
@@ -194,8 +191,8 @@ class transferOut extends Component {
     const dataToSend = {
       kodeTO: data.kode_between_transfer
     };
-    await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailTransferoutData`, dataToSend, {
+    axios
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailTransferoutData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -203,16 +200,13 @@ class transferOut extends Component {
     .then( result => {
       this.setState({
         ...this.state,
-        dataTOD:result.data.result
+        dataTOD:result.data.result,
+        prmModaledit: true,
+        detailDataTO:data
       });
     })
     .catch(error => {
       console.log(error);
-    });
-    this.setState({
-      ...this.state,
-      prmModaledit: true,
-      detailDataTO:data
     });
   }
   modalEditClose = () =>  {
@@ -368,7 +362,7 @@ class transferOut extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormTO`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormTO`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

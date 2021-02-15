@@ -42,7 +42,7 @@ class productionPlanPrint extends Component {
         IDPRODUKSIH: params.ID
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getProductionPlanReport`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getProductionPlanReport`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

@@ -146,7 +146,7 @@ class productout extends Component {
       KODEDO: data.kode_delivery_order
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDeliveryOrderDetail`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDeliveryOrderDetail`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -280,7 +280,7 @@ class productout extends Component {
       kodeOrderH:value.value
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailOrderData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailOrderData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -344,7 +344,7 @@ class productout extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormDeliveryOrder`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormDeliveryOrder`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

@@ -71,7 +71,7 @@ class order extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getOrderData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getOrderData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -97,7 +97,7 @@ class order extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getOrderData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getOrderData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -123,7 +123,7 @@ class order extends Component {
       OUTLET: prmOUTLET
     };
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getFormAddOrder`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getFormAddOrder`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -177,7 +177,7 @@ class order extends Component {
       kodeOrderH: data.kode_order_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailOrderData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailOrderData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -316,7 +316,7 @@ class order extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormOrderData`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormOrderData`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -369,15 +369,17 @@ class order extends Component {
       IDDelivery:this.state.detailDataOrder.kode_delivery_order,
       IDOrder:this.state.detailDataOrder.kode_order_h,
       USER:this.props.userinfo.id_user,
-      PRMOUTLET:PRMOUTLET
+      PRMOUTLET:PRMOUTLET,
+      RECEIVEDATA:this.state.dataOrderD
     };
     this.setState({
       ...this.state,
       buttonEditPrm:true,
       buttonEditText:""
     });
+    console.log(dataToSend);
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/receiveOrder`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/receiveOrder`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -396,6 +398,45 @@ class order extends Component {
       console.log(error);
       console.log(this.props);
     });
+  }
+  handleChangeunitReceive = event =>  {
+    let IdData = event.target.id
+    let daftarBarang = this.state.dataOrderD
+    let unitReceive = event.target.value==""?0:parseInt(event.target.value)
+    let satuanReceive = daftarBarang[IdData].satuan_qty_receive==""?0:parseInt(daftarBarang[IdData].satuan_qty_receive)
+    let cekHasilqty_receive = parseInt(satuanReceive)+(parseInt(unitReceive)*parseInt(daftarBarang[IdData].konversi_barang))
+    if(cekHasilqty_receive>parseInt(daftarBarang[IdData].qty_send)){
+      alert("qty yang anda input melebihi stok")
+    } else {
+        daftarBarang[IdData].unit_qty_receive=event.target.value
+        daftarBarang[IdData].qty_receive=parseInt(satuanReceive)+(parseInt(unitReceive)*parseInt(daftarBarang[IdData].konversi_barang))
+      this.setState({
+        ...this.state,
+        dataOrderD: daftarBarang
+      });
+    }
+  }
+  handleChangesatuanReceive = event =>  {
+    let IdData = event.target.id
+    let daftarBarang = this.state.dataOrderD
+    let maxSatuan = parseInt(daftarBarang[IdData].konversi_barang)-1
+    if(event.target.value>maxSatuan){
+      alert("angka yang anda input melebihi batas satuan")
+    } else{
+      let unitReceive = daftarBarang[IdData].unit_qty_receive==""?0:parseInt(daftarBarang[IdData].unit_qty_receive)
+      let satuanReceive = event.target.value==""?0:parseInt(event.target.value)
+      let cekHasilqty_receive = parseInt(satuanReceive)+(parseInt(unitReceive)*parseInt(daftarBarang[IdData].konversi_barang))
+      if(cekHasilqty_receive>parseInt(daftarBarang[IdData].qty_send)){
+        alert("qty yang anda input melebihi stok")
+      } else {
+        daftarBarang[IdData].satuan_qty_receive=event.target.value
+        daftarBarang[IdData].qty_receive=parseInt(satuanReceive)+(parseInt(unitReceive)*parseInt(daftarBarang[IdData].konversi_barang))
+        this.setState({
+          ...this.state,
+          dataOrderD: daftarBarang
+        });
+      }
+    }
   }
   render() {
     const DataButton = (data) => (
@@ -597,8 +638,22 @@ class order extends Component {
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.nama_barang}</span></Col>
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{`${dataOrderD.qty_req_ToShow}/${dataOrderD.unit_barang}.${dataOrderD.satuan_barang}`}</span></Col>
                     <Col xs="2"><span style={{fontWeight:"bold"}}>{`${dataOrderD.qty_send_ToShow}/${dataOrderD.unit_barang}.${dataOrderD.satuan_barang}`}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.satuan_barang}</span></Col>
-                    <Col xs="2"><span style={{fontWeight:"bold"}}>{dataOrderD.satuan_barang}</span></Col>
+                    <Col xs="2">
+                        <InputGroup>
+                            <Input type="number" name={`${index}`} id={`${index}`} value={dataOrderD.unit_qty_receive} onChange={this.handleChangeunitReceive} min="0" />
+                            <InputGroupAddon addonType="append">
+                            <InputGroupText><span style={{fontWeight:"bold"}}>{dataOrderD.unit_barang}</span></InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </Col>
+                    <Col xs="2">
+                        <InputGroup>
+                            <Input type="number" name={`${index}`} id={`${index}`} value={dataOrderD.satuan_qty_receive} onChange={this.handleChangesatuanReceive} min="0" max={dataOrderD.konversi_barang-1} />
+                            <InputGroupAddon addonType="append">
+                            <InputGroupText><span style={{fontWeight:"bold"}}>{dataOrderD.satuan_barang}</span></InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </Col>
                   </Row>
                 )}
               </Col>

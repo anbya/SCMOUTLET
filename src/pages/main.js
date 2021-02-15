@@ -45,7 +45,7 @@ class mainPage extends Component {
       loadingInventory2:true,
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/dataDashboardOutlet`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/dataDashboardOutlet`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -74,7 +74,7 @@ class mainPage extends Component {
       loadingInventory2:true,
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/dataDashboardOutlet`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/dataDashboardOutlet`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }

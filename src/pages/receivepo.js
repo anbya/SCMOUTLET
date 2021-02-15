@@ -97,7 +97,7 @@ class receivepopage extends Component {
       kodePOH: data.kode_purchase_order_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getDetailPOData`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getDetailPOData`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -175,7 +175,7 @@ class receivepopage extends Component {
     };
     console.log(dataToSend);
     axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/receivePO`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/receivePO`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }

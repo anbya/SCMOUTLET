@@ -205,7 +205,7 @@ class rawProsessing extends Component {
       IDMASTERRAWPROCESS: data.kode_master_rawprosessing_h
     };
     await axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/getRawProsessingPlanPageD`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/getRawProsessingPlanPageD`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -256,7 +256,7 @@ class rawProsessing extends Component {
       buttonEditText:""
     });
     axios
-    .post(`https://api.jaygeegroupapp.com/centralkitchen/rawProcessCompletion`, dataToSend, {
+    .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/rawProcessCompletion`, dataToSend, {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -300,7 +300,7 @@ class rawProsessing extends Component {
         buttonAddText:""
       });
       axios
-      .post(`https://api.jaygeegroupapp.com/centralkitchen/addFormRawProsessingPlan`, dataToSend, {
+      .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addFormRawProsessingPlan`, dataToSend, {
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
@@ -351,7 +351,7 @@ class rawProsessing extends Component {
             MULTIPLEBY:this.state.tambahqtybaranghasil
         };
         axios
-        .post(`https://api.jaygeegroupapp.com/centralkitchen/addItemProductionPlan`, dataToSend, {
+        .post(`${localStorage.getItem("APIROUTE")}/centralkitchen/addItemProductionPlan`, dataToSend, {
             headers: {
             "Access-Control-Allow-Origin": "*"
             }
