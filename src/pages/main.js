@@ -134,11 +134,6 @@ class mainPage extends Component {
         sortable: true,
       },
       {
-        name: 'Nama Vendor',
-        selector: 'nama_vendor',
-        sortable: true,
-      },
-      {
         name: 'OnHand Qty',
         selector: 'onhand_qty',
         sortable: true,
