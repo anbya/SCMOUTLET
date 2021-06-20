@@ -49,24 +49,24 @@ class App extends Component {
     }
     componentDidMount = async () =>  {
         await localStorage.removeItem("APIROUTE");
-        localStorage.setItem("APIROUTE","https://3ef97221024d.ngrok.io")
-        // localStorage.setItem("APIROUTE","http://localhost:3009")
-        this.setState({
-            ...this.state,
-            prmLoading: false
-        });
-        // axios
-        // .get(`${process.env.REACT_APP_LINK}`)
-        // .then(async result => {
-        //     await localStorage.setItem("APIROUTE",result.data.APIROUTE)
-        //     this.setState({
-        //         ...this.state,
-        //         prmLoading: false
-        //     });
-        // })
-        // .catch(error => {
-        //   console.log(error);
+        // localStorage.setItem("APIROUTE","https://3ef97221024d.ngrok.io")
+        // // localStorage.setItem("APIROUTE","http://localhost:3009")
+        // this.setState({
+        //     ...this.state,
+        //     prmLoading: false
         // });
+        axios
+        .get(`${process.env.REACT_APP_LINK}`)
+        .then(async result => {
+            await localStorage.setItem("APIROUTE",result.data.APIROUTE)
+            this.setState({
+                ...this.state,
+                prmLoading: false
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
     render() {
         if(this.state.prmLoading === true){
